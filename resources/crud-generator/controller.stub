@@ -1,0 +1,119 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyRootNamespaceHttp\Requests;
+use DummyRootNamespaceHttp\Controllers\Controller;
+
+use DummyRootNamespace{{modelNamespace}}{{modelName}};
+use Illuminate\Http\Request;
+use Session;
+
+class DummyClass extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        ${{crudName}} = {{modelName}}::All();
+        return view('{{viewPath}}{{viewName}}.index', compact('{{crudName}}'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+        $html = view('{{viewPath}}{{viewName}}.create')->render();
+        return response()->json(['html' => $html]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function store(Request $request)
+    {
+        {{validationRules}}
+        try {
+            {{modelName}}::create($request->all());
+            Session::flash('alert-success', 'Creado con exito!');
+        } 
+        catch (\Illuminate\Database\QueryException $e) {
+            Session::flash('alert-danger', 'Error al crear en la BD!');
+        }
+        return redirect('{{routeGroup}}{{viewName}}');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\View\View
+     */
+    public function show($id)
+    {
+        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
+        $html = view('{{viewPath}}{{viewName}}.show', compact('{{crudNameSingular}}'))->render();
+        return response()->json(['html' => $html]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
+        $html = view('{{viewPath}}{{viewName}}.edit', compact('{{crudNameSingular}}'))->render();
+        return response()->json(['html' => $html]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update($id, Request $request)
+    {
+        {{validationRules}}
+        try {
+            ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
+            ${{crudNameSingular}}->update($request->all());
+            Session::flash('alert-success', 'Actualizado con exito!');
+        } 
+        catch (\Illuminate\Database\QueryException $e) {
+            Session::flash('alert-danger', 'Error al actualizar en la BD!');
+        }
+        return redirect('{{routeGroup}}{{viewName}}');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function destroy($id)
+    {
+        {{modelName}}::destroy($id);
+        Session::flash('alert-success', 'Eliminado con exito!');
+        return redirect('{{routeGroup}}{{viewName}}');
+    }
+}

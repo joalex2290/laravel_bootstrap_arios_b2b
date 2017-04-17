@@ -1,0 +1,1 @@
+ {!! Form::select('city_id', $cities, isset($office_city) ? $office_city : [], ['class' => 'form-control', ]) !!}

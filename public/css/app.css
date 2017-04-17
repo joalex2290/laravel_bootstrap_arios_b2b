@@ -1,0 +1,221 @@
+/* App Custom Styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: 60px;
+}
+a:hover {
+ cursor:pointer;
+ text-decoration: none;
+}
+.featured {
+    display: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px
+}
+.featured .slidesjs-container {
+    margin-bottom: 5px
+}
+.featured .slidesjs-navigation {
+    margin-top: 3px
+}
+.featured .slidesjs-pagination {
+    margin: 6px 0 0;
+    float: right;
+    list-style: none
+}
+.featured .slidesjs-pagination li {
+    float: left;
+    margin: 0 1px
+}
+.featured .slidesjs-pagination li a {
+    display: block;
+    width: 13px;
+    height: 0;
+    padding-top: 13px;
+    background-image: url(../img/pagination.png);
+    background-position: 0 0;
+    float: left;
+    overflow: hidden
+}
+.featured .slidesjs-pagination li a.active,
+.featured .slidesjs-pagination li a:hover.active {
+    background-position: 0 -13px
+}
+.featured .slidesjs-pagination li a:hover {
+    background-position: 0 -26px
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f5f5f5;
+}
+.container .text-muted {
+    margin: 20px 0;
+}
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+code {
+    font-size: 80%;
+}
+.navbar-brand{
+    padding: 0px;
+}
+.wrapper {
+    position: relative;
+    padding-top: 45px
+}
+.breadcrumb {
+    background: 0 0;
+    border-radius: 0;
+    border-bottom: 1px solid #ddd
+}
+.panel-title {
+    font-weight: 700
+}
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
+    background-color: #337ab7;
+    border-color: #337ab7
+}
+.navbar {
+    margin-bottom: 20px
+}
+.add-classified-btn {
+    margin-left: 200px
+}
+.input-group-btn:last-child>.btn {
+    margin-left: 0
+}
+.menu a span {
+    float: right
+}
+.menu a.list-group-item.active,
+.menu a.list-group-item.active:hover,
+.menu a.list-group-item:hover {
+    border-color: #ddd;
+    background-color: #337ab7;
+    color: #fff
+}
+.menu a.list-subgroup-item {
+    position: relative;
+    display: block;
+    padding: 5px 15px;
+    margin-bottom: -1px;
+    color: #555;
+    font-size: 12px;
+    border: 1px dotted #ddd;
+    background-color: #f9f9f9;
+}
+.menu a.list-subgroup-item.active,
+.menu a.list-subgroup-item.active:hover,
+.menu a.list-subgroup-item:hover {
+    text-decoration: none;
+    border-color: #ddd;
+    background-color: #337ab7;
+    color: #fff;
+}
+.overlay {
+    position: relative;
+}
+.overlay .thumbnail {
+    display: block;
+}
+.overlay .check-wrapper {
+    opacity: 0;
+    position: absolute; z-index: 1;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    background: rgba(0,0,0,0.6) url("../img/check.png") no-repeat scroll center center / 50px 50px;
+}
+.overlay:hover .check-wrapper {
+    opacity: 1;
+}
+
+.overlay .checked-thumbnail {
+    opacity: 1;
+}
+.dropdown-menu.login{
+    padding: 15px;
+    min-width: 250px;
+}
+.thumbnail{
+    height: 230px;
+}
+.label-as-badge {
+    border-radius: 1em;
+}
+.navbar-login
+{
+    padding: 10px;
+    padding-bottom: 0px;
+}
+.input-number-control{
+    width: 65px;
+}
+.easyWizardSteps {
+    list-style:none;
+    width:100%;
+    overflow:hidden;
+    margin:0;
+    padding:0;
+    border-bottom:1px solid #ccc;
+    margin-bottom:20px
+}
+.easyWizardSteps li {
+    font-size:18px;
+    display:inline-block;
+    padding:10px;
+    color:#B0B1B3;
+    margin-right:20px;
+}
+.easyWizardSteps li span {
+    font-size:24px
+}
+.easyWizardSteps li.current {
+    color:#000
+}
+.easyWizardButtons {
+    float: right;
+}
+.loader {
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+}
+.image-preview-input {
+    position: relative;
+    overflow: hidden;
+    margin: 0px;    
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;    
+}
+.image-preview-input input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.image-preview-input-title {
+    margin-left:2px;
+}

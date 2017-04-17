@@ -1,0 +1,9 @@
+{!! Form::model($%%crudNameSingular%%, [
+'method' => 'PATCH',
+'url' => ['/%%routeGroup%%%%viewName%%', $%%crudNameSingular%%->%%primaryKey%%],
+'class' => 'form-horizontal',
+'files' => true
+]) !!}
+@include ('%%viewTemplateDir%%.form', ['submitButtonText' => 'Actualizar'])
+
+{!! Form::close() !!}
