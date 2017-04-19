@@ -36,7 +36,7 @@ Carrito - ARB2B
     <li><h5>Total<br> <strong>${{number_format($total,2)}}</strong></h5></li>
 </ul>
 @endif
-@else
+@elseif($cart->count()>0)
 <div class="btn-group pull-right">
     <a href="/" type="button" class="btn btn-primary">
         <i class="glyphicon glyphicon-home"></i><span class="hidden-xs"> Volver al inicio</span>
@@ -44,8 +44,9 @@ Carrito - ARB2B
     <a href="{{route('cart.destroy')}}" class="btn btn-danger">
         <i class="glyphicon glyphicon-trash"></i><span class="hidden-xs"> Vaciar carrito</span>
     </a>
-    <a href="#" class="btn btn-success">
-        <i class="glyphicon glyphicon-check"></i><span class="hidden-xs"> Cotizar</span>
+    <a href="{{url('cart/quote')}}"  class="btn btn-success">
+        <i class="glyphicon glyphicon-check"></i>
+        <span class="hidden-xs"> Cotizar</span>
     </a>
 </div>
 </h4>

@@ -143,6 +143,17 @@ class CartController extends Controller {
       ]);
   }
 
+  public function getQuote(Request $request){
+    $cart_total_qty = Cart::instance(Session::get('default'))->count();
+    return view('cart.quote',compact('cart_total_qty'));
+  }
+
+  public function postQuote(Request $request){
+    Session::flash('alert-success', 'Cotización solicitada con exito!');
+    Cart::destroy();
+    return redirect('/');
+  }
+
   public function postCheckout(Request $request) {
     $cart_total_qty = Cart::instance(Session::get('catalog'))->count();
     if ($cart_total_qty == 0) {
@@ -231,7 +242,7 @@ class CartController extends Controller {
     Session::forget('office');
     Session::forget('catalog');
     Cart::destroy();
-    $request->session()->flash('alert-success', 'Pedido solicitado con exito!');
+    Session::flash('alert-success', 'Pedido solicitado con exito!');
     return view('cart.checkout');
   }
 }

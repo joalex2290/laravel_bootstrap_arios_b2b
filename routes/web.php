@@ -15,6 +15,7 @@ Route::get('category/{name}', ['uses' => 'WebsiteController@getCategoryProducts'
 Route::get('/about-us', function(){ return view('about-us');});
 Route::get('/services', function(){ return view('services');});
 Route::get('/contact', function(){ return view('contact');});
+Route::post('/contact', ['uses' => 'WebsiteController@postContact']);
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
@@ -33,10 +34,10 @@ Route::group(['prefix' => 'cart'], function () {
 	Route::get('update', ['uses' => 'CartController@getUpdateProductQty', 'as' => 'cart.update',]);
 	Route::get('remove', ['uses' => 'CartController@getRemoveProduct', 'as' => 'cart.remove',]);
 	Route::get('destroy', ['uses' => 'CartController@getDestroyCart', 'as' => 'cart.destroy',]);
-	Route::get('guest-checkout', ['uses' => 'CartController@getGuestCheckout', 'as' => 'guest-checkout']);
-	Route::post('guest-checkout', ['uses' => 'CartController@postGuestCheckout', 'as' => 'guest-checkout']);
 	Route::get('checkout', ['uses' => 'CartController@getCheckout', 'as' => 'checkout']);
 	Route::post('checkout', ['uses' => 'CartController@postCheckout', 'as' => 'checkout']);
+	Route::get('quote', ['uses' => 'CartController@getQuote', 'as' => 'quote']);
+	Route::post('quote', ['uses' => 'CartController@postQuote', 'as' => 'quote']);
 });
 
 // Admin Routes

@@ -17,6 +17,11 @@
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li>
+					<a href="{{url('/')}}">
+						Inicio
+					</a>
+				</li>
+				<li>
 					<a href="{{url('/about-us')}}">
 						Nosotros 
 					</a>

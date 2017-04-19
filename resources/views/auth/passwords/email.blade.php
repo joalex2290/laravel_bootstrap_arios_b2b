@@ -12,11 +12,17 @@ Recuperar contraseña - Arios Colombia
 <h4>
     Recuperar contraseña
 </h4>
+@if (session('status'))
+<div  id="alert" class="alert alert-info alert-dismissable fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <p> <i class="glyphicon glyphicon-exclamation-sign"></i> Se ha enviado un correo con el enlace para recuperar la contraseña.</p>
+</div>
+@endif
 <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
     {{ csrf_field() }}
 
     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-    <label for="email" class="col-md-3 control-label">Correo electrónico</label>
+        <label for="email" class="col-md-3 control-label">Correo electrónico</label>
 
         <div class="col-md-6">
             <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>

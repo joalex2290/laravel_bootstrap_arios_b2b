@@ -8,6 +8,8 @@ use App\Category;
 use App\product;
 use DB;
 use Illuminate\Http\Request;
+use Session;
+use Mail;
 
 class WebsiteController extends Controller
 {
@@ -21,6 +23,38 @@ class WebsiteController extends Controller
 		$products = Product::where('category_id',$category->id)->get();
 		return view('products',compact('products'));
 	}
+
+	public function postContact(Request $request) {
+		$name = $request->name;
+		$phone =$request->phone;
+		$email =$request->email;
+		$organization = $request->organization;
+		$type = $request->type;
+		$message = $request->message;
+
+		$to = "sistemas@arioscolombia.com.co";
+		$subject = $type;
+		$body  = "Enviado desde formulario contactenos "."\n";
+		$body .= "Tipo Comentario: " .$type. "\n";
+		$body .= "Empresa: " .$organization. "\n";  
+		$body .= "Nombre: " .$name. "\n"; 
+		$body .= "Telefono: " .$phone. "\n"; 
+		$body .= "Email: " .$email. "\n"; 
+		$body .= "Comentarios: " .$message. "\n";
+
+		$data = ['to' => $to,'subject' => $subject,	'body' => $body];
+
+		Mail::raw('Text to e-mail', function ($message) use ($data) {
+			$message->to($data['to'])
+			->from('postmaster@arioscolombia.com.co')
+			->subject($data['subject'])
+			->setBody($data['body']);
+		});
+		
+		Session::flash('alert-success', 'Se ha enviado su mensaje con exito!');
+		return redirect('contact');
+	}
+
 	public function getDepartments()
 	{
 		$departments = Department::All();

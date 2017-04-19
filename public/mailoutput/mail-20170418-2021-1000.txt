@@ -1,0 +1,12 @@
+To: sistemas@arioscolombia.com.co,oswaldo979@hotmail.com
+Subject: Felicitación
+FROM:webmaster@arioscolombia.com.co
+
+Enviado desde formulario contactenos 
+Tipo Comentario: Felicitación
+Empresa: assad
+Nombre: arioscolombia
+Telefono: 1231312
+Email: sistemas@arioscolombia.com.co
+Comentarios: 12312312
+

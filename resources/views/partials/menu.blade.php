@@ -28,7 +28,6 @@
     </div>
 </div>
 <div class="menu list-group hidden-xs hidden-sm hidden-md">
-    <a href="/" class="list-group-item"><i class="glyphicon glyphicon-home"></i> Inicio</a>
     @if(!empty($categories))
     @foreach($categories as $category)
     <a href="{{url('category/'.$category->name)}}" class="list-group-item">{{$category->label}} <span class="glyphicon glyphicon-chevron-right"></span></a>
