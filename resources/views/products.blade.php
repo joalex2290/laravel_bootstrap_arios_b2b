@@ -10,11 +10,12 @@ Productos - Arios Colombia
 @section('content')
 <ol class="breadcrumb">
 	<li><a href="/">Inicio</a></li>
-	<li><a href="#">Categoria</a></li>
+	<li><a href="#">Productos</a></li>
 </ol>
 <h4>
 	Productos
 </h4>
+@if($products->count() > 0)
 <div class="row ">
 	@foreach($products as $index =>  $product)
 	<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
@@ -41,6 +42,11 @@ Productos - Arios Colombia
 	</div>
 	@endforeach
 </div>
+@else
+<div class="alert alert-warning">
+<strong>No hay productos disponibles.</strong>
+</div>
+@endif
 @endsection
 
 @section('scripts')

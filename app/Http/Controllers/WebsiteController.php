@@ -10,6 +10,7 @@ use DB;
 use Illuminate\Http\Request;
 use Session;
 use Mail;
+use App\Quote;
 
 class WebsiteController extends Controller
 {
@@ -20,8 +21,18 @@ class WebsiteController extends Controller
 
 	public function getCategoryProducts($name) {
 		$category = Category::where('name',$name)->first();
-		$products = Product::where('category_id',$category->id)->get();
+		$products = Product::where('category_id',$category->id)->orderBy('name', 'asc')->get();
 		return view('products',compact('products'));
+	}
+
+	public function postSearchProduct(Request $request) {
+		$products = Product::where('name','LIKE','%'.$request->product.'%')->get();
+		return view('products',compact('products'));
+	}
+
+	public function getSearchQuote(Request $request) {
+		$quote = Quote::where('quote_number',$request->quote)->first();
+		return view('quote',compact('quote'));
 	}
 
 	public function postContact(Request $request) {

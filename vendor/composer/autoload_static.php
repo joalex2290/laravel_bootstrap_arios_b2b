@@ -359,6 +359,8 @@ class ComposerStaticInitf8ee5aab973620aae5c9a233f7e6bd61
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateProductsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_26_233948_create_products_table.php',
         'CreateProfilesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_27_215932_create_profiles_table.php',
+        'CreateQuoteDetailsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_19_193207_create_quote_details_table.php',
+        'CreateQuotesTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_19_192301_create_quotes_table.php',
         'CreateRolesPermissionsTables' => __DIR__ . '/../..' . '/database/migrations/2016_01_01_193651_create_roles_permissions_tables.php',
         'CreateShoppingcartTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_23_213540_create_shoppingcart_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',

@@ -1,9 +1,10 @@
 <!-- Menu -->
 @if(Auth::guest())
 <div class="well well-sm">
-    <form>
+<form action="{{url('search-product')}}" method="POST">
+        {{csrf_field()}}
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Buscar producto">
+            <input type="text" class="form-control" name="product" placeholder="Buscar producto" required>
             <span class="input-group-btn">
                 <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
             </span>
@@ -36,6 +37,16 @@
     <a href="#" class="list-group-item">Sin categorias en la BD, comuniquese con el administrador del sistema.</a>
     @endif
 </div>
+<div class="well well-sm">
+    <form action="{{url('search-quote')}}" method="GET">
+        <div class="input-group">
+            <input type="text" class="form-control" name="quote" placeholder="Consultar cotización" required>
+            <span class="input-group-btn">
+                <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div>
+    </form>
+</div>
 <div class="well hidden-xs">
     <div class="row">
         <div class="col-lg-6 col-xs-6">
@@ -45,7 +56,7 @@
         </div>
         <div class="col-lg-6 col-xs-6">
             <div >
-            <a href="http://www.biomedicaltecnologia.com.co/" target="_blank"><img src="{{asset('img/brands/2.png')}}" width="200" class="img-responsive" alt="BIOMEDICAL"></a>
+                <a href="http://www.biomedicaltecnologia.com.co/" target="_blank"><img src="{{asset('img/brands/2.png')}}" width="200" class="img-responsive" alt="BIOMEDICAL"></a>
             </div>
         </div>
         <div class="col-lg-6 col-xs-6">

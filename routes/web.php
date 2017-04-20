@@ -16,6 +16,8 @@ Route::get('/about-us', function(){ return view('about-us');});
 Route::get('/services', function(){ return view('services');});
 Route::get('/contact', function(){ return view('contact');});
 Route::post('/contact', ['uses' => 'WebsiteController@postContact']);
+Route::post('/search-product', ['uses' => 'WebsiteController@postSearchProduct']);
+Route::get('/search-quote', ['uses' => 'WebsiteController@getSearchQuote']);
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
