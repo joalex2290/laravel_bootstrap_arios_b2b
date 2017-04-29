@@ -29,6 +29,7 @@ class CreateQuotesTable extends Migration
             $table->float('subtotal')->nullable();
             $table->float('tax')->nullable();
             $table->float('total')->nullable();
+            $table->float('shipping')->nullable();
             $table->integer('status')->default(0);
             $table->timestamps();
         });

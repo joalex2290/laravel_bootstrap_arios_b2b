@@ -32,4 +32,9 @@ class Quote extends Model
         return $this->hasMany('App\QuoteDetail');
     }
 
+    public function city() 
+    {
+        return $this->belongsTo('App\City');
+    }
+
 }

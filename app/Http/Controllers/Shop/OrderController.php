@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Quote;
+use App\QuoteDetail;
 use App\Order;
 use App\OrderDetail;
 use App\OrderLog;
@@ -15,6 +16,7 @@ use App\Office;
 use App\Organization;
 use Auth;
 use Carbon\Carbon;
+use Mail;
 use Session;
 use File;
 use Zipper;
@@ -53,11 +55,6 @@ class OrderController extends Controller {
     public function getOrganizationOrders() {
         $organization = Organization::find(Auth::user()->profile->organization->id);
         return view('shop.orders.organization-orders', ['organization' => $organization]);
-    }
-
-    public function getQuotes() {
-        $quotes= Quote::all();
-        return view('admin.manage-quotes.quotes', compact('quotes'));
     }
 
     public function getAllOrders() {
@@ -102,6 +99,18 @@ class OrderController extends Controller {
             }
             $order_detail->save();
         }
+
+        $body  = "<p>Su pedido #".$order->id." fue ".$order_log->comment.".</p>";
+
+        $data = ['to' => $order->user->email, 'order_id' => $order->id, 'body' => $body];
+
+        Mail::raw('Text to e-mail', function ($message) use ($data) {
+          $message->to($data['to'])
+          ->from('postmaster@arioscolombia.com.co')
+          ->subject('Notificación pedido#'.$data['order_id'])
+          ->setBody($data['body'],'text/html');
+        });
+
         Session::flash('alert-success', 'Pedido aprobado con exito.');
         return redirect('/shop/order/detail?id='.$request->order_id.'&url='.$request->url.'&tab='.$request->tab);
     }
@@ -134,6 +143,18 @@ class OrderController extends Controller {
             $order_detail->status = 0;
             $order_detail->save();
         }
+
+        $body  = "<p>Su pedido #".$order->id." fue ".$order_log->comment.".</p>";
+
+        $data = ['to' => $order->user->email, 'order_id' => $order->id, 'body' => $body];
+
+        Mail::raw('Text to e-mail', function ($message) use ($data) {
+          $message->to($data['to'])
+          ->from('postmaster@arioscolombia.com.co')
+          ->subject('Notificación pedido#'.$data['order_id'])
+          ->setBody($data['body'],'text/html');
+        });
+
         Session::flash('alert-success', 'Pedido rechazado con exito.');
         return redirect('/shop/order/detail?id='.$request->order_id.'&url='.$request->url.'&tab='.$request->tab);
     }
@@ -158,14 +179,6 @@ class OrderController extends Controller {
         else{
             return view('errors.404');
         }
-    }
-
-    public function getQuoteDetails(Request $request) {
-        $quote = Quote::find($request->id);
-        $quote_details = $quote->quoteDetails()->get();
-        $url = $request->url;
-        $tab = $request->tab;
-        return view('admin.manage-quotes.quote-details', compact('quote', 'quote_details', 'url', 'tab'));
     }
 
     public function getOrderDetails(Request $request) {
@@ -223,58 +236,117 @@ class OrderController extends Controller {
         $order = Order::find($request->order_id);
         $order->status = $request->status;
         if($request->status == 5){
-          $order->seller_id = Auth::user()->id;  
-          $order->seller_name = Auth::user()->name;
-      }
-      if($request->status == 6){
-          $order->dispatched_at = Carbon::now();
-          $order_log->carrier_id = $request->carrier_id;
-          $order_log->tracking_number = $request->tracking_number;
-          $order_log->tracking_link = $request->tracking_link;
-      }
-      if($request->status == 7){
-          $order->delivered_at = Carbon::now();
-      }
-
-      $order_log->from = Auth::user()->name;
-      $order_log->to = $order->user->name;
-      $order_log->save();
-      $order->save();
-
-      return redirect('admin/manage-orders-details?id='.$request->order_id.'&url='.$request->url.'&tab='.$request->tab);
-  }
-  public function getSapTemplate(Request $request) {
-    $order = Order::findOrFail($request->order_id);
-    $order_details = $order->orderDetails()->get();
-
-    $header_content = "DocNum,CardCode,NumAtCard,Comments,DocDate,DocDueDate\r\nDocNum,CardCode,NumAtCard,Comments,DocDate,DocDueDate\r\n1,CN".$order->organization->tax_id.",,Pedido Arios B2B,".date("Ymd").",".date("Ymd");
-    $detail_content = "ParentKey,ItemCode,Quantity,Price,ProjectCode\r\nParentKey,ItemCode,Quantity,Price,ProjectCode\r\n";
-    $last_key = $order_details->count();
-    foreach($order_details as $index => $product){
-        if ($index == $last_key) {
-            $detail_content = $detail_content."1,".$product->product->code.",".$product->approved_quantity.",".$product->price.",CLIENTES PRIVADOS";
-        } else {
-            $detail_content = $detail_content."1,".$product->product->code.",".$product->approved_quantity.",".$product->price.",CLIENTES PRIVADOS\r\n";
+            $order->seller_id = Auth::user()->id;  
+            $order->seller_name = Auth::user()->name;
         }
+        if($request->status == 6){
+            $order->dispatched_at = Carbon::now();
+            $order_log->carrier_id = $request->carrier_id;
+            $order_log->tracking_number = $request->tracking_number;
+            $order_log->tracking_link = $request->tracking_link;
+        }
+          if($request->status == 7){
+            $order->delivered_at = Carbon::now();
+        }
+
+          $order_log->from = Auth::user()->name;
+          $order_log->to = $order->user->name;
+          $order_log->save();
+          $order->save();
+
+        $body  = "<p>Su pedido #".$order->id." tiene un comentario: ".$order_log->comment.".</p>";
+
+        $data = ['to' => $order->user->email, 'order_id' => $order->id, 'body' => $body];
+
+        Mail::raw('Text to e-mail', function ($message) use ($data) {
+          $message->to($data['to'])
+          ->from('postmaster@arioscolombia.com.co')
+          ->subject('Notificación pedido#'.$data['order_id'])
+          ->setBody($data['body'],'text/html');
+        });
+
+          return redirect('admin/manage-orders-details?id='.$request->order_id.'&url='.$request->url.'&tab='.$request->tab);
     }
 
-    $header_file_name = "pedido-encabezado-".date("YmdHis").".csv";
-    $header_path = storage_path('app\\templates\\').$header_file_name;
-    File::put($header_path,$header_content);
+    public function getSapTemplate(Request $request) {
+        $order = Order::findOrFail($request->order_id);
+        $order_details = $order->orderDetails()->get();
 
-    substr($detail_content, 0, -4);
+        $header_content = "DocNum,CardCode,NumAtCard,Comments,DocDate,DocDueDate\r\nDocNum,CardCode,NumAtCard,Comments,DocDate,DocDueDate\r\n1,CN".$order->organization->tax_id.",,Pedido Arios B2B,".date("Ymd").",".date("Ymd");
+        $detail_content = "ParentKey,ItemCode,Quantity,Price,ProjectCode\r\nParentKey,ItemCode,Quantity,Price,ProjectCode\r\n";
+        $last_key = $order_details->count();
+        foreach($order_details as $index => $product){
+            if ($index == $last_key) {
+                $detail_content = $detail_content."1,".$product->product->code.",".$product->approved_quantity.",".$product->price.",CLIENTES PRIVADOS";
+            } else {
+                $detail_content = $detail_content."1,".$product->product->code.",".$product->approved_quantity.",".$product->price.",CLIENTES PRIVADOS\r\n";
+            }
+        }
 
-    $detail_file_name = "pedido-detalle-".date("YmdHis").".csv";
-    $detail_path = storage_path('app\\templates\\').$detail_file_name;
-    File::put($detail_path,$detail_content);
+        $header_file_name = "pedido-encabezado-".date("YmdHis").".csv";
+        $header_path = storage_path('app\\templates\\').$header_file_name;
+        File::put($header_path,$header_content);
 
-    $zipname = "pedido-sap-".date("YmdHis").".zip";
-    $zip_path = storage_path('app\\templates\\').$zipname;
+        substr($detail_content, 0, -4);
 
-    $files = [$header_path,$detail_path];
-    Zipper::make($zip_path)->add($files)->close();
+        $detail_file_name = "pedido-detalle-".date("YmdHis").".csv";
+        $detail_path = storage_path('app\\templates\\').$detail_file_name;
+        File::put($detail_path,$detail_content);
 
-    return response()->download($zip_path);
-}
+        $zipname = "pedido-sap-".date("YmdHis").".zip";
+        $zip_path = storage_path('app\\templates\\').$zipname;
+
+        $files = [$header_path,$detail_path];
+        Zipper::make($zip_path)->add($files)->close();
+
+        return response()->download($zip_path);
+    }
+
+    public function getQuote() {
+        $quotes= Quote::all();
+        return view('admin.manage-quotes.quotes', compact('quotes'));
+    }
+
+    public function postQuote(Request $request) {
+
+        $quote = quote::find($request->quote_id);
+        $quote->subtotal = $request->subtotal;
+        $quote->tax = $request->tax;
+        $quote->total = $request->total;
+        $quote->shipping = $request->shipping;
+        $quote->status = 1;
+        $quote->save();
+
+        foreach ($request->quote_detail_id as $index => $id) {
+
+            $quote_detail = quoteDetail::find($id);
+            $quote_detail->price = $request->price[$index];
+            $quote_detail->tax = $request->price[$index]*($request->product_tax[$index]/100);
+            $quote_detail->price_tax = $request->price[$index] + ($request->price[$index]*($request->product_tax[$index]/100));
+            $quote_detail->save();
+        }
+        $body  = "<p>Su cotización esta lista!, puede consultarla con el numero: <a href='".url('search-quote?quote='.$quote->quote_number)."' target='_blank' >".$quote->quote_number."</a></p>";
+
+        $data = ['to' => $quote->email, 'quote_num' => $quote->quote_number, 'body' => $body];
+
+        Mail::raw('Text to e-mail', function ($message) use ($data) {
+          $message->to($data['to'])
+          ->from('postmaster@arioscolombia.com.co')
+          ->subject('Cotizacion lista de Arios Colombia #'.$data['quote_num'])
+          ->setBody($data['body'],'text/html');
+        });
+
+
+        Session::flash('alert-success', 'Cotización creada con exito.');
+        return redirect('/admin/manage-quotes-details?id='.$request->quote_id.'&url='.$request->url.'&tab='.$request->tab);
+    }
+
+    public function getQuoteDetails(Request $request) {
+        $quote = Quote::find($request->id);
+        $quote_details = $quote->quoteDetails()->get();
+        $url = $request->url;
+        $tab = $request->tab;
+        return view('admin.manage-quotes.quote-details', compact('quote', 'quote_details', 'url', 'tab'));
+    }
 
 }

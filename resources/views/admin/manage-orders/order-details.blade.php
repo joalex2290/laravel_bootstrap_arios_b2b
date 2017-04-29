@@ -12,7 +12,7 @@ Detalle del pedido - ARB2B
 @section('content')
 <ol class="breadcrumb">
     <li><a href="{{url('/')}}">Inicio</a></li>
-    <li><a href="{{url('/shop')}}">Tienda</a></li>
+    <li><a href="{{url('/admin/manage-orders')}}">Pedidos</a></li>
     <li><a href="">Detalle del pedido</a></li>
 </ol>
 <h4>Detalle del pedido

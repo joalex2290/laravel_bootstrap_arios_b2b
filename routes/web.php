@@ -76,9 +76,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
 	Route::post('remove-catalog-products', ['uses' => 'Admin\AdminController@postRemoveCatalogProducts', 'as' => 'admin-remove-catalog-products',]);
 	Route::resource('document-number', 'Admin\DocumentNumberController', ['except' => ['destroy']]);
 	Route::resource('order', 'Admin\OrderController', ['except' => ['store', 'edit', 'update', 'destroy']]);
-	Route::get('manage-quotes', ['uses' => 'Shop\OrderController@getQuotes', 'as' => 'manage-quotes',]);
+	Route::get('manage-quotes', ['uses' => 'Shop\OrderController@getQuote', 'as' => 'manage-quotes',]);
 	Route::get('manage-quotes-details', ['uses' => 'Shop\OrderController@getQuoteDetails', 'as' => 'manage-quote-details',]);
-	Route::post('manage-quotes', ['uses' => 'Shop\OrderController@postQuotes', 'as' => 'manage-quotes',]);
+	Route::post('manage-quotes', ['uses' => 'Shop\OrderController@postQuote', 'as' => 'manage-quotes',]);
 	Route::get('manage-orders', ['uses' => 'Shop\OrderController@getAllOrders', 'as' => 'manage-all-orders',]);
 	Route::get('manage-orders-details', ['uses' => 'Shop\OrderController@getOrderDetails', 'as' => 'manage-order-details',]);
 	Route::post('add-order-log', ['uses' => 'Shop\OrderController@postAddOrderLog', 'as' => 'admin.add-order-log',]);

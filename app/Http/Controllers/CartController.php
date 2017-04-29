@@ -197,8 +197,6 @@ class CartController extends Controller {
       ->subject('Cotizacion en Arios Colombia #'.$data['quote_num'])
       ->setBody($data['body'],'text/html');
     });
-
-
   } 
   catch (\Illuminate\Database\QueryException $e) {
     Session::flash('alert-danger', 'Error al crear en la BD!');
@@ -292,6 +290,17 @@ public function postCheckout(Request $request) {
     $order_item->save();
     $line++;
   }
+
+    $body  = "<p>Su pedido #".$order->id." fue solicitado con exito.</p>";
+
+    $data = ['to' => Auth::user()->email, 'order_id' => $order->id, 'body' => $body];
+
+    Mail::raw('Text to e-mail', function ($message) use ($data) {
+      $message->to($data['to'])
+      ->from('postmaster@arioscolombia.com.co')
+      ->subject('Notificación pedido#'.$data['order_id'])
+      ->setBody($data['body'],'text/html');
+    });
 
   Session::forget('office');
   Session::forget('catalog');
