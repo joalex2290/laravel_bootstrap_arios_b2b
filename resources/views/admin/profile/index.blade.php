@@ -25,25 +25,25 @@
 </h4>
 <br>
 <div class="table-responsive">
-    <table id="profile-datatable" class="table table-borderless table-hover">
-        <thead>
-            <tr class="active text-center">
-                <th>ID</th><th>{{ trans('profile.user_id') }}</th><th>{{ trans('profile.organization_id') }}</th><th>{{ trans('profile.personal_id') }}</th><th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach($profile as $item)
-            <tr>
-                <td>{{ $item->id }}</td>
-                <td>{{ $item->user->name }}</td><td>{{ $item->organization->name }}</td><td>{{ $item->personal_id }}</td>
-                <td>
-                    <button class="btn btn-primary btn-xs" title="Ver" onclick="view({{$item->id}})"><i class="fa fa-eye" aria-hidden="true"></i> Ver</button>
-                    <button class="btn btn-warning btn-xs" title="Editar" onclick="edit({{$item->id}})"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</button>
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
+  <table id="profile-datatable" class="table table-borderless table-hover">
+    <thead>
+      <tr class="active text-center">
+        <th>ID</th><th>{{ trans('profile.user_id') }}</th><th>{{ trans('profile.organization_id') }}</th><th>{{ trans('profile.personal_id') }}</th><th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($profile as $item)
+      <tr>
+        <td>{{ $item->id }}</td>
+        <td>{{ $item->user->name }}</td><td>@if(is_null($item->organization_id)) N/A @else {{$profile->organization->name}}  @endif</td><td>{{ $item->personal_id }}</td>
+        <td>
+          <button class="btn btn-primary btn-xs" title="Ver" onclick="view({{$item->id}})"><i class="fa fa-eye" aria-hidden="true"></i> Ver</button>
+          <button class="btn btn-warning btn-xs" title="Editar" onclick="edit({{$item->id}})"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</button>
+        </td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
 </div>
 <!-- Create Modal -->
 <div id="create-modal" class="modal fade" role="dialog">

@@ -44,17 +44,10 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ( $user->profile['active']||$user->hasRole('superadmin')) {
-            if ( $user->hasRole('superadmin') || $user->hasRole('vendedor') ) {
-                return redirect('/admin');
-            }
-            return redirect('/shop');
+        if ( $user->hasRole('superadmin') || $user->hasRole('vendedor') ) {
+            return redirect('/admin');
         }
-        else{
-            Session::flash('alert-danger', 'El usuario no esta activo, comuniquese con el administrador de su organización.');
-            return redirect('/logout');
-        }
-
+        return redirect('/shop');
     }
 
 }

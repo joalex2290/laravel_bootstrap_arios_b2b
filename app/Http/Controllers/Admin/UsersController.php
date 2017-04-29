@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Role;
 use App\User;
+use App\Profile;
 use Illuminate\Http\Request;
 use Session;
 
@@ -50,7 +51,10 @@ class UsersController extends Controller
             $user = User::create($data);
             foreach ($request->roles as $role) {
                 $user->assignRole($role);
-            }  
+            }
+            $profile = new Profile();
+            $profile->user_id = $user->id;
+            $profile->save();  
             Session::flash('alert-success', 'Creado con exito!');
         } 
         catch (\Illuminate\Database\QueryException $e) {

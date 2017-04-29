@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Quote;
 use App\Order;
 use App\OrderDetail;
 use App\OrderLog;
@@ -52,6 +53,11 @@ class OrderController extends Controller {
     public function getOrganizationOrders() {
         $organization = Organization::find(Auth::user()->profile->organization->id);
         return view('shop.orders.organization-orders', ['organization' => $organization]);
+    }
+
+    public function getQuotes() {
+        $quotes= Quote::all();
+        return view('admin.manage-quotes.quotes', compact('quotes'));
     }
 
     public function getAllOrders() {
@@ -154,7 +160,15 @@ class OrderController extends Controller {
         }
     }
 
-    public function postAllOrderDetails(Request $request) {
+    public function getQuoteDetails(Request $request) {
+        $quote = Quote::find($request->id);
+        $quote_details = $quote->quoteDetails()->get();
+        $url = $request->url;
+        $tab = $request->tab;
+        return view('admin.manage-quotes.quote-details', compact('quote', 'quote_details', 'url', 'tab'));
+    }
+
+    public function getOrderDetails(Request $request) {
         $order = Order::find($request->id);
         $order_details = $order->orderDetails()->get();
         $order_logs = $order->orderLogs()->get();

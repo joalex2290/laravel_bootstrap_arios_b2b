@@ -13,6 +13,7 @@ Tienda - ARB2B
 	<li><a href="{{url('/')}}">Inicio</a></li>
 	<li><a href="#">Tienda</a></li>
 </ol>
+@if(Auth::user()->profile['active'])
 @if(Auth::user()->hasRole('administrador'))
 @if(Session::has('catalog'))
 <div class="row">
@@ -28,7 +29,7 @@ Tienda - ARB2B
 		<div class="thumbnail">
 			<img src="{{asset('img/catalog-default.png')}}" height="150" width="150" />
 			<div class="caption">
-			<h5>{{$current_catalog->name}}</h5>
+				<h5>{{$current_catalog->name}}</h5>
 			</div>
 		</div>
 	</div>
@@ -84,7 +85,7 @@ Tienda - ARB2B
 		<div class="thumbnail">
 			<img src="{{asset('img/catalog-default.png')}}" height="150" width="150" />
 			<div class="caption">
-			<h5>{{$current_catalog->name}}</h5>
+				<h5>{{$current_catalog->name}}</h5>
 			</div>
 		</div>
 	</div>
@@ -94,7 +95,7 @@ Tienda - ARB2B
 <div id="office-catalog-wizard">
 	<div id="offices" class="step" data-step-title="Oficina">
 		@foreach(Auth::user()->offices()->get() as $office)
-				@if($office->active)
+		@if($office->active)
 		<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
 			<div id="{{$office->id}}" class="overlay offices">
 				<div class="thumbnail">
@@ -123,6 +124,12 @@ Tienda - ARB2B
 </div>
 @endif
 @endif
+@endif
+
+@else
+<div class="alert alert-danger">
+	<p> <i class="glyphicon glyphicon-exclamation-sign"></i> Usuario inactivo, comuniquese con el administrador de su organización.</p>
+</div>
 @endif
 <br>
 <div class="jumbotron">
